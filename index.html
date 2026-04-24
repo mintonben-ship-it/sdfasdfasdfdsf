@@ -68,8 +68,19 @@ h1{
 }
 </style>
 
-<script src="TemplateData/UnityProgress.js"></script>
-<script src="Build/UnityLoader.js"></script>
+<script src="Build/SnowRider3D-gd-1.loader.js"></script>
+
+<script>
+createUnityInstance(document.querySelector("#gameContainer"), {
+  dataUrl: "Build/SnowRider3D-gd-1.data.unityweb",
+  frameworkUrl: "Build/SnowRider3D-gd-1.wasm.framework.unityweb",
+  codeUrl: "Build/SnowRider3D-gd-1.wasm.code.unityweb",
+  streamingAssetsUrl: "StreamingAssets",
+  companyName: "Snow Rider",
+  productName: "Snow Rider 3D",
+  productVersion: "1.0",
+});
+</script>
 
 </head>
 
