@@ -48,7 +48,6 @@ h1{
   overflow:hidden;
 }
 
-/* PROGRESS */
 .progress{
   height:100%;
   width:0%;
@@ -63,24 +62,13 @@ h1{
 
 /* GAME */
 #gameContainer{
-  width:100%;
-  height:100%;
+  width:100vw;
+  height:100vh;
 }
 </style>
 
+<!-- IMPORTANT: Unity loader MUST load first -->
 <script src="Build/SnowRider3D-gd-1.loader.js"></script>
-
-<script>
-createUnityInstance(document.querySelector("#gameContainer"), {
-  dataUrl: "Build/SnowRider3D-gd-1.data.unityweb",
-  frameworkUrl: "Build/SnowRider3D-gd-1.wasm.framework.unityweb",
-  codeUrl: "Build/SnowRider3D-gd-1.wasm.code.unityweb",
-  streamingAssetsUrl: "StreamingAssets",
-  companyName: "Snow Rider",
-  productName: "Snow Rider 3D",
-  productVersion: "1.0",
-});
-</script>
 
 </head>
 
@@ -98,26 +86,32 @@ createUnityInstance(document.querySelector("#gameContainer"), {
 <div id="gameContainer"></div>
 
 <script>
-setTimeout(()=>{
+window.addEventListener("load", () => {
 
-  // remove loader
-  document.getElementById("loader").remove();
+  setTimeout(() => {
 
-  // start game
-  var gameInstance = UnityLoader.instantiate(
-    "gameContainer",
-    "Build/SnowRider3D-gd-1.json",
-    {
-      onProgress: UnityProgress,
-      Module:{
-        onRuntimeInitialized: function(){
-          UnityProgress(gameInstance, "complete");
-        }
-      }
-    }
-  );
+    const loader = document.getElementById("loader");
 
-},3000);
+    createUnityInstance(document.querySelector("#gameContainer"), {
+      dataUrl: "Build/SnowRider3D-gd-1.data.unityweb",
+      frameworkUrl: "Build/SnowRider3D-gd-1.wasm.framework.unityweb",
+      codeUrl: "Build/SnowRider3D-gd-1.wasm.code.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "Snow Rider",
+      productName: "Snow Rider 3D",
+      productVersion: "1.0"
+    }).then(() => {
+
+      // remove loader AFTER game starts
+      loader.remove();
+
+    }).catch(err => {
+      console.log("Unity failed to load:", err);
+    });
+
+  }, 1500);
+
+});
 </script>
 
 </body>
